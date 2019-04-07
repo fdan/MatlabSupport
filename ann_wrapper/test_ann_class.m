@@ -5,6 +5,7 @@ dbstop if error
 for dim = 10:25:60
     for n = 2:3
         [anno pts Y] = make_ann(dim,10^n);
+
         test_ksearch(anno, pts, Y,'ksearch');
         test_ksearch(anno, pts, Y, 'prisearch');
         test_frsearch(anno, pts, Y);
@@ -19,8 +20,9 @@ for ii=1:6
     anno{ii} = ann(rand(100,10000));
 end
 for ii=1:10000
-    ai = randint(1,1,6)+1;    
-    [idx dst] = ksearch(anno{ai}, rand(100,1), randint(1,1,40)+10, 1.0);
+    ai = randi(5,1,1)+1;    
+    
+    [idx dst] = ksearch(anno{ai}, rand(100,1), randi(40,1,1)+10, 1.0);
     if mod(ii,100)==0
         anno{ai} = close(anno{ai});
         anno{ai} = ann(rand(100,10000));
@@ -78,7 +80,7 @@ if any( abs(min(Y,[],2)-dst(:)) > dst(:).*1e-6 )
 end
 
 % get k nieghbors
-k = randint(1,1,10)+5;
+k = randi(10,1,1)+5;
 for ii=1:size(pts,2)
     % including self
     [idx dst] = feval(fcn, anno, pts(:,ii), k, 0);
